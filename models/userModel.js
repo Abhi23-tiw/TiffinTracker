@@ -20,13 +20,13 @@ const userSchema = new mongoose.Schema(
       max: 12,
     },
     pushToken: {
-      type: String, // Stores Expo push token
+      type: String, 
     },
     otp: {
-      type: String, // Stores the OTP
+      type: String, 
     },
     otpExpires: {
-      type: Date, // Stores the OTP expiration time
+      type: Date, 
     },
   },
   { timestamps: true }

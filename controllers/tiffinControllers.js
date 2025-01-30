@@ -7,7 +7,6 @@ const createTiffinController = async (req, res) => {
   try {
     const { tiffins, date, email } = req.body;
 
-    // Validate input
     if (tiffins === undefined || !date || !email) {
       return res.status(400).send({
         success: false,
@@ -15,10 +14,8 @@ const createTiffinController = async (req, res) => {
       });
     }
 
-    // Convert tiffins to a number
     const tiffinsCount = Number(tiffins);
 
-    // Ensure `tiffins` is a valid number and non-negative
     if (isNaN(tiffinsCount) || tiffinsCount < 0) {
       return res.status(400).send({
         success: false,
@@ -34,7 +31,6 @@ const createTiffinController = async (req, res) => {
       });
     }
 
-    // Fetch the User's ObjectId based on email
     const user = await userModel.findOne({ email });
     if (!user) {
       return res.status(404).send({
@@ -43,11 +39,10 @@ const createTiffinController = async (req, res) => {
       });
     }
 
-    // Upsert logic: Update if exists, otherwise create
     const tiffin = await tiffinModel.findOneAndUpdate(
-      { date: formattedDate, updatedBy: user._id }, // Use user._id
-      { tiffins: tiffinsCount, date: formattedDate, updatedBy: user._id }, // Use user._id
-      { upsert: true, new: true, runValidators: true } // Create if not exists, validate fields
+      { date: formattedDate, updatedBy: user._id }, 
+      { tiffins: tiffinsCount, date: formattedDate, updatedBy: user._id }, 
+      { upsert: true, new: true, runValidators: true } 
     );
 
     return res.status(201).send({
@@ -70,7 +65,7 @@ const getTiffinController = async (req, res) => {
   try {
     const { date, email } = req.query;
 
-    // Validate input
+    
     if (!date || !email) {
       return res.status(400).send({
         success: false,
@@ -86,7 +81,7 @@ const getTiffinController = async (req, res) => {
       });
     }
 
-    // Fetch the User's ObjectId based on email
+    
     const user = await userModel.findOne({ email });
     if (!user) {
       return res.status(404).send({
@@ -95,10 +90,10 @@ const getTiffinController = async (req, res) => {
       });
     }
 
-    // Fetch the tiffin record for the provided date and user
+    
     const tiffin = await tiffinModel.findOne({
       date: formattedDate.toISOString(),
-      updatedBy: user._id, // Use user._id
+      updatedBy: user._id, 
     });
 
     if (!tiffin) {
@@ -108,7 +103,7 @@ const getTiffinController = async (req, res) => {
       });
     }
 
-    // Send the tiffin count in the response
+    
     return res.status(200).send({
       success: true,
       message: "Tiffin record retrieved successfully.",
@@ -168,7 +163,7 @@ const getTotalTiffinsByMonth = async (req, res) => {
           return res.status(400).json({ error: "Email, month, and year are required" });
       }
 
-      // Find user by email
+      
       const user = await userModel.findOne({ email });
       if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -178,13 +173,12 @@ const getTotalTiffinsByMonth = async (req, res) => {
 
       const startDate = new Date(`${year}-${formattedMonth}-01T00:00:00.000Z`);
       const endDate = new Date(startDate);
-      endDate.setUTCMonth(endDate.getUTCMonth() + 1); // Move to next month
-
-      // Find total tiffins for user
+      endDate.setUTCMonth(endDate.getUTCMonth() + 1); 
+      
       const totalTiffins = await tiffinModel.aggregate([
           {
               $match: {
-                  updatedBy: new mongoose.Types.ObjectId(user._id), // Use user ID instead of email
+                  updatedBy: new mongoose.Types.ObjectId(user._id), 
                   date: { $gte: startDate, $lt: endDate }
               }
           },

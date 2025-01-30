@@ -108,16 +108,16 @@ const forgotPasswordControllers = async (req, res) => {
             });
         }
 
-        // Generate a 6-digit OTP
+        
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
-        const otpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
+        const otpExpires = Date.now() + 10 * 60 * 1000; 
 
-        // Store the OTP and expiration in the database
+        
         user.otp = otp;
         user.otpExpires = otpExpires;
         await user.save();
 
-        // Create an HTML email template
+       
         const htmlContent = `
             <div style="font-family: Arial, sans-serif; line-height: 1.5; padding: 20px;">
                 <h2 style="color: #3b82f6;">Your OTP Code</h2>
@@ -130,7 +130,7 @@ const forgotPasswordControllers = async (req, res) => {
             </div>
         `;
 
-        // Create a transporter for sending the email via Gmail
+        
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -139,7 +139,7 @@ const forgotPasswordControllers = async (req, res) => {
             },
         });
 
-        // Send the OTP email
+       
         await transporter.sendMail({
             from: '"TiffinManager" <your-email@gmail.com>',
             to: email,
@@ -147,7 +147,7 @@ const forgotPasswordControllers = async (req, res) => {
             html: htmlContent,
         });
 
-        // Send response
+        
         res.status(200).send({
             success: true,
             message: 'OTP has been sent to your email',
@@ -190,7 +190,7 @@ const verifyOtpController = async (req, res) => {
         res.status(200).send({
             success: true,
             message: 'OTP verified successfully',
-            token, // Send the token to the frontend for resetting the password
+            token, 
         });
     } catch (error) {
         console.error('Error in verifying OTP:', error);
@@ -205,18 +205,18 @@ const updateUsernameControllers = async (req, res) => {
     try {
         const { name, email } = req.body;
 
-        // Find user by email
+        
         const user = await userModel.findOne({ email });
 
 
-        // Update the username if user exists
+        
         const updatedUserName = await userModel.findOneAndUpdate(
             { email },
             { name: name || user.name },
             { new: true }
         );
 
-        // Send success response
+        
         res.status(200).send({
             success: true,
             message: 'Username Updated',
@@ -276,10 +276,10 @@ const resetPasswordController = async (req, res) => {
         user.password = hashedPassword;
         await user.save();
 
-        // Send response back to the client
+        
         res.status(200).send({ message: "Password reset successfully" });
     } catch (error) {
-        console.error("Error in resetPasswordController:", error);
+        
         res.status(500).send({ message: "Server error" });
     }
 };
@@ -389,11 +389,11 @@ const sendWelcomeEmail = async (userEmail, userName) => {
 
         
         const info = await transporter.sendMail(mailOptions);
-        console.log("Email sent successfully: ", info.response);
+        
 
         return { success: true, message: "Email sent successfully" };
     } catch (error) {
-        console.error("Error sending email: ", error);
+        
         return { success: false, message: "Error sending email", error };
     }
 };

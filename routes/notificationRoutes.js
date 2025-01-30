@@ -22,7 +22,7 @@ router.post("/save-token", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Save the token to the user's document
+    
     user.pushToken = token;
     await user.save();
 
@@ -121,11 +121,11 @@ const getMessageForTime = () => {
 
   let messageBody;
   if (currentHour >= 3 && currentHour < 15) {
-    // Lunchtime
+    
     if (custommsg[currentDayName]?.lunch === "Default") {
       messageBody = "Wahi purana boring khaana hai aaj bhi 🙄";
     } else {
-      // Select a random lunch message
+      
       const randomMessage = customMessages.lunch[Math.floor(Math.random() * customMessages.lunch.length)];
       messageBody = `${randomMessage} Enjoy your lunch!`;
     }
@@ -134,7 +134,7 @@ const getMessageForTime = () => {
     if (custommsg[currentDayName]?.dinner === "Default") {
       messageBody = "Wahi purana boring khaana hai aaj bhi 🙄";
     } else {
-      // Select a random dinner message
+      
       const randomMessage = customMessages.dinner[Math.floor(Math.random() * customMessages.dinner.length)];
       messageBody = `${randomMessage} ${custommsg[currentDayName]?.dinner}`;
     }
@@ -143,21 +143,18 @@ const getMessageForTime = () => {
 };
 
 cron.schedule("9  0 * * *", async () => {
-  console.log("Sending 9 AM notifications...");
   const body = getMessageForTime();
 
   await sendNotifications("Good Night 🌄 ", body);
 });
 
 cron.schedule("0 15 * * *", async () => {
-  console.log("Sending 3 PM notifications...");
   const body = getMessageForTime();
 
   await sendNotifications("Good Afternoon 🌞", body);
 });
 
 cron.schedule("26 20 * * *", async () => {
-  console.log("Sending 3 PM notifications...");
   const body = getMessageForTime();
 
   await sendNotifications("Have you updated your tiffin count? 😊");
@@ -186,7 +183,6 @@ const sendNotifications = async (title, body) => {
       }
     }
 
-    console.log("Notifications sent successfully");
   } catch (error) {
     console.error("Error sending notifications:", error);
   }
@@ -197,17 +193,15 @@ router.post("/remove-token", async (req, res) => {
   const { email } = req.body;
   try {
     const result = await userModel.findOneAndUpdate(
-      { email: email }, // Find user by email
-      { $unset: { pushToken: "" } }, // Remove the pushToken field
-      { new: true } // Return the updated document
+      { email: email }, 
+      { $unset: { pushToken: "" } },
+      { new: true } 
     );
 
     if (!result) {
-      console.log("No user found with email:", email);
       return res.status(404).send({ message: "No user found with that email." });
     }
 
-    console.log("Push token removed successfully for:", email);
     return res.status(200).send({ message: "Push token removed successfully." });
   } catch (error) {
     console.error("Error removing push token:", error);
