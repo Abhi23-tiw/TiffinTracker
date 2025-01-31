@@ -26,17 +26,17 @@
 <img src="https://github.com/user-attachments/assets/7e180f2d-3713-441e-a403-b0a2aa66c078" alt="Tiffin Tracker" width="220" height="430">
 <img src="https://github.com/user-attachments/assets/ca875080-f1f8-4a3e-93e5-eb88d6bd1c4a" alt="Tiffin Tracker" width="220" height="430">
 </p>
+
 ### 🚀 Run Trackify on Your System
 1. Clone the Repository
 
        git clone https://github.com/YOUR_GITHUB_USERNAME/Trackify.git
-
        cd Trackify
-2. Install Dependencies
+3. Install Dependencies
 Make sure you have Node.js and Expo CLI installed. If not, install them first:
 
        npm install -g expo-cli
-3. Then, install the project's dependencies:
+4. Then, install the project's dependencies:
 
        npm install
 3. Start the App
