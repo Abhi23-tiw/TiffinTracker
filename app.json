@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "trackify",
+    "slug": "client",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/play_store.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.abhishrestha.client"
+    },
+    "web": {},
+    "extra": {
+      "eas": {
+        "projectId": "f072e598-16db-4dbe-a647-3108efdbac16"
+      }
+    },
+    "plugins": [
+      ["expo-notifications",
+        {
+          "icon": "./assets/notificationIcon.png",
+          "color": "#ffffff",
+          "defaultChannel": "default",
+          "enableBackgroundRemoteNotifications": true
+        }],
+      "expo-font"
+    ]
+  }
+}
