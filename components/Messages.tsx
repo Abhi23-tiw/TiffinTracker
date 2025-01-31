@@ -32,7 +32,7 @@ const Messages = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [order, setOrder] = useState([]);
   const [message, setMessage] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("+917408567311");
+  const [phoneNumber, setPhoneNumber] = useState("");
   let [fontsLoaded] = useFonts({
     Lato_400Regular,
     Lato_700Bold,
